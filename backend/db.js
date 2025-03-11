@@ -1,30 +1,18 @@
-// db.js file
-
-// Mysql connection configuration
-
-const mysql = require('mysql2/promise');
-
-// create the connection to database
-const pool = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "flicker",
-    multipleStatements: true,
-    charset: "utf8mb4",
-    decimalNumbers: true,
+// Cargamos variables de entorno
+require('dotenv').config();
+// Importamos libreria de MYSQL
+const mysql = require('mysql2');
+// Creamos conexion con la BBDD usando las variables de entorno
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
 });
-
-pool.getConnection()
-  .then(conn => {
-    const res = conn.query('SELECT 1');
-    conn.release();
-    return res;
-  }).then(results => {
-    console.log('Connected to MySQL DB');
-  }).catch(err => {
-    console.log(err); 
-  });
-
-  
-  module.exports = pool
+// Conectamos a la BBDD
+connection.connect((err) => {
+    if (err) throw err;
+    console.log('Connected to MySQL database!');
+});
+// Exportamos la conexion para poder usarla en otros archivos
+module.exports = connection;
