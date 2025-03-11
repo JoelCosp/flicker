@@ -1,29 +1,105 @@
-import React from 'react'
+import React, { useState } from "react";
+
+import AuthenticationService from '../services/AuthenticationService'
 
 const Register = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    lastname: "",
+    username: "",
+    age: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value, // Se actualiza el campo específico
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      const response = await AuthenticationService.createUser(formData); // Llamamos al servicio
+      console.log("Usuario registrado con éxito:", response);
+      alert("Registro exitoso"); // Puedes mostrar un mensaje de éxito
+    } catch (error) {
+      console.error("Error en el registro:", error);
+      alert("Hubo un error en el registro"); // Puedes mostrar un mensaje de error
+    }
+  };
+
   return (
     <section>
-      <form className='flex flex-col' action="" method="post">
+      <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
         <label htmlFor="name">NOMBRE: </label>
-        <input type="text" id="name" placeholder='Nombre'/>
+        <input
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          type="text"
+          id="name"
+          placeholder="Nombre"
+        />
 
         <label htmlFor="lastname">APELLIDO: </label>
-        <input type="text" id="lastname" placeholder='Apellido'/>
+        <input
+          name="lastname"
+          value={formData.lastname}
+          onChange={handleChange}
+          type="text"
+          id="lastname"
+          placeholder="Apellido"
+        />
 
         <label htmlFor="username">N. DE USUARIO: </label>
-        <input type="text" id="username" placeholder='Nombre de usuario'/>
+        <input
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          type="text"
+          id="username"
+          placeholder="Nombre de usuario"
+        />
 
         <label htmlFor="age">EDAD: </label>
-        <input type="number" min="0" id="age" placeholder='Edad'/>
+        <input
+          name="age"
+          value={formData.age}
+          onChange={handleChange}
+          type="number"
+          min="0"
+          id="age"
+          placeholder="Edad"
+        />
 
         <label htmlFor="email">CORREO ELECTRÓNICO: </label>
-        <input type="email" id="email" placeholder='Correo electrónico'/>
+        <input
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          type="email"
+          id="email"
+          placeholder="Correo electrónico"
+        />
 
         <label htmlFor="password">CONTRASEÑA: </label>
-        <input type="password" id="password" placeholder='Contraseña'/>
+        <input
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          type="password"
+          id="password"
+          placeholder="Contraseña"
+        />
+
+        <button type="submit" className="bg-green-500 py-3 mt-4 text-white">
+          REGISTRARSE
+        </button>
       </form>
     </section>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
