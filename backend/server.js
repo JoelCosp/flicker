@@ -2,12 +2,15 @@
 require('dotenv').config();
 // Importamos express para crear el servidor
 const express = require('express');
+// Importamos cors
+const cors = require('cors');
 // Importamos las rutas de autentificacion
 const authRoutes = require('./auth');
 // Creamos instancia de la app de express
 const app = express();
 // Middleware para permitir el uso de JSON en las solicitudes
 app.use(express.json());
+app.use(cors());
 // Usar las rutas de autenticación y asignarlas al prefijo "/auth"  
 // Esto significa que todas las rutas definidas en auth.js estarán disponibles bajo "/auth"
 app.use('/auth', authRoutes);

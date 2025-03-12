@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 import AuthenticationService from '../services/AuthenticationService'
 
 const Register = () => {
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -11,7 +15,7 @@ const Register = () => {
     email: "",
     password: "",
   });
-
+  
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -20,13 +24,13 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await AuthenticationService.createUser(formData); // Llamamos al servicio
       console.log("Usuario registrado con éxito:", response);
-      alert("Registro exitoso"); // Puedes mostrar un mensaje de éxito
+      navigate('/');
     } catch (error) {
       console.error("Error en el registro:", error);
-      alert("Hubo un error en el registro"); // Puedes mostrar un mensaje de error
     }
   };
 
